@@ -1,0 +1,16 @@
+DependsOn:
+  - Subnet1
+  - Subnet2
+  - SecurityGroupEC2
+Type: AWS::EC2::VPCEndpoint
+Properties:
+  ServiceName: com.amazonaws.ap-northeast-1.ssmmessages
+  SubnetIds:
+    - Ref: Subnet1
+    - Ref: Subnet2
+  VpcId:
+    Ref: VPC
+  VpcEndpointType: Interface
+  SecurityGroupIds:
+    - "Fn::GetAtt": SecurityGroupEC2.GroupId
+  PrivateDnsEnabled: true

@@ -1,0 +1,12 @@
+DependsOn:
+  - HostedZone
+  - RDSM1
+Type: AWS::Route53::RecordSet
+Properties:
+  HostedZoneId:
+    Ref: HostedZone
+  Name: db.rds-mm-replication-test.net
+  ResourceRecords:
+    - "Fn::GetAtt": RDSM1.Endpoint.Address
+  TTL: 30
+  Type: CNAME

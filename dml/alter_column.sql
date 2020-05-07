@@ -1,0 +1,2 @@
+-- table copy
+ALTER TABLE mm_tests.tbl_a MODIFY COLUMN id BIGINT AUTO_INCREMENT NOT NULL;

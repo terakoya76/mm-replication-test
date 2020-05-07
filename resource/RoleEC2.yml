@@ -1,0 +1,17 @@
+Type: AWS::IAM::Role
+Properties:
+  Path: /
+  RoleName: rds-mm-replication-test-RoleEC2
+  AssumeRolePolicyDocument:
+    Version: '2012-10-17'
+    Statement:
+      - Effect: Allow
+        Principal:
+          Service:
+            - ec2.amazonaws.com
+        Action:
+          - 'sts:AssumeRole'
+  Path: /
+  ManagedPolicyArns:
+    - AmazonEC2RoleforSSM ARN
+    - AmazonSSMFullAccess ARN

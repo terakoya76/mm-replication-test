@@ -1,0 +1,10 @@
+DependsOn:
+  - Subnet1
+  - Subnet2
+Type: AWS::RDS::DBSubnetGroup
+Properties:
+  DBSubnetGroupName: db-subnet-group
+  DBSubnetGroupDescription: "-"
+  SubnetIds:
+    - Ref: Subnet1
+    - Ref: Subnet2

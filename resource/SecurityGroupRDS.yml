@@ -1,0 +1,15 @@
+DependsOn:
+  - VPC
+  - SecurityGroupLambda
+Type: AWS::EC2::SecurityGroup
+Properties:
+  GroupDescription: SecurityGroup for RDS Ingress
+  VpcId:
+    Ref: VPC
+  SecurityGroupIngress:
+    - SourceSecurityGroupId:
+        "Fn::GetAtt": SecurityGroupLambda.GroupId
+      IpProtocol: -1
+    - IpProtocol: tcp
+      FromPort: 3306
+      ToPort: 3306

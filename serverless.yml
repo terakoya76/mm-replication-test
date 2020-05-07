@@ -1,0 +1,89 @@
+service:
+  name: rds-mm-replication-test
+
+plugins:
+- serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: ap-northeast-1
+  timeout: 75
+  vpc:
+    securityGroupIds:
+    - "Fn::GetAtt": SecurityGroupLambda.GroupId
+    subnetIds:
+    - Ref: Subnet1
+    - Ref: Subnet2
+
+custom:
+  environment:
+    m: ${file(./env/m.yml)}
+    m1: ${file(./env/m1.yml)}
+    m2: ${file(./env/m2.yml)}
+
+package:
+  individually: true
+
+functions:
+  read:
+    handler: functions/Read.handler
+    environment: ${self:custom.environment.m}
+    events:
+    - schedule: cron(*/1 * * * ? *)
+    role: RoleLambda
+  write:
+    handler: functions/Write.handler
+    environment: ${self:custom.environment.m}
+    # events:
+    # - schedule: cron(*/1 * * * ? *)
+    role: RoleLambda
+
+  m1-read:
+    handler: functions/Read.handler
+    environment: ${self:custom.environment.m1}
+    events:
+    - schedule: cron(*/1 * * * ? *)
+    role: RoleLambda
+  m1-write:
+    handler: functions/Write.handler
+    environment: ${self:custom.environment.m1}
+    # events:
+    # - schedule: cron(*/1 * * * ? *)
+    role: RoleLambda
+
+  m2-read:
+    handler: functions/Read.handler
+    environment: ${self:custom.environment.m2}
+    events:
+    - schedule: cron(*/1 * * * ? *)
+    role: RoleLambda
+  m2-write:
+    handler: functions/Write.handler
+    environment: ${self:custom.environment.m2}
+    # events:
+    # - schedule: cron(*/1 * * * ? *)
+    role: RoleLambda
+
+resources:
+  Resources:
+    VPC: ${file(./resource/VPC.yml)}
+    Subnet1: ${file(./resource/Subnet1.yml)}
+    Subnet2: ${file(./resource/Subnet2.yml)}
+    DBSubnetGroup: ${file(./resource/DBSubnetGroup.yml)}
+    SecurityGroupLambda: ${file(./resource/SecurityGroupLambda.yml)}
+    SecurityGroupRDS: ${file(./resource/SecurityGroupRDS.yml)}
+    SecurityGroupEC2: ${file(./resource/SecurityGroupEC2.yml)}
+    SecretsManager: ${file(./resource/SecretsManager.yml)}
+    SecretsManagerAttachment: ${file(./resource/SecretsManagerAttachment.yml)}
+    RDSM1: ${file(./resource/RDSM1.yml)}
+    ParameterGroupM1: ${file(./resource/ParameterGroupM1.yml)}
+    ParameterGroupM2: ${file(./resource/ParameterGroupM2.yml)}
+    # RoleEC2: ${file(./resource/RoleEC2.yml)}
+    RoleLambda: ${file(./resource/RoleLambda.yml)}
+    RoleRDSProxy: ${file(./resource/RoleRDSProxy.yml)}
+    HostedZone: ${file(./resource/HostedZone.yml)}
+    RecordSet: ${file(./resource/RecordSet.yml)}
+    EndpointSSM: ${file(./resource/EndpointSSM.yml)}
+    EndpointSSMMessages: ${file(./resource/EndpointSSMMessages.yml)}
+    EndpointEC2Messages: ${file(./resource/EndpointEC2Messages.yml)}

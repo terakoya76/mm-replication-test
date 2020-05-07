@@ -1,0 +1,7 @@
+Type: AWS::Route53::HostedZone
+Properties:
+  Name: rds-mm-replication-test.net
+  VPCs:
+    - VPCId:
+        Ref: VPC
+      VPCRegion: ap-northeast-1

@@ -1,0 +1,4 @@
+Type: AWS::RDS::DBParameterGroup
+Properties:
+  Family: MySQL5.7
+  Description: mm-test-m1

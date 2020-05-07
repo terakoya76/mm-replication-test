@@ -1,0 +1,4 @@
+endpoint: testdb.proxy-xxxxxxx.ap-northeast-1.rds.amazonaws.com
+db: mm_tests
+username: admin
+password: password

@@ -1,0 +1,36 @@
+Type: AWS::IAM::Role
+Properties:
+  Path: /
+  RoleName: RDSProxy
+  RoleName: rds-mm-replication-test-RoleRDSProxy
+  AssumeRolePolicyDocument:
+    Version: '2012-10-17'
+    Statement:
+      - Effect: Allow
+        Principal:
+          Service:
+            - lambda.amazonaws.com
+        Action: sts:AssumeRole
+      - Effect: Allow
+        Principal:
+          Service:
+            - rds.amazonaws.com
+        Action: sts:AssumeRole
+  Policies:
+    - PolicyName: rds-mm-replication-test-RoleRDSProxy-policy
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+            - secretsmanager:GetResourcePolicy
+            - secretsmanager:GetSecretValue
+            - secretsmanager:DescribeSecret
+            - secretsmanager:ListSecretVersionIds
+            Resource:
+              Ref: SecretsManager
+          - Effect: Allow
+            Action:
+            - secretsmanager:GetRandomPassword
+            - secretsmanager:ListSecrets
+            Resource: "*"
